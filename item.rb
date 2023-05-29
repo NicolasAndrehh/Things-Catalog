@@ -9,9 +9,9 @@ class Item
   end
 
   def genre=(genre)
-    @genre.items.delete(self)
+    genre.items.delete(self)
     @genre = genre
-    @genre.items << self
+    genre.items << self
   end
 
   def author=(author)
