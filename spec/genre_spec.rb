@@ -7,6 +7,16 @@ describe Genre do
     @item = Item.new(11, false, 'Title')
   end
 
+  describe '#initialize' do
+    it 'creates a new instance of Genre' do
+      expect(@genre).to be_an_instance_of(Genre)
+    end
+
+    it 'should have attributes' do
+      expect(@genre).to have_attributes(name: 'Rock', items: [])
+    end
+  end
+
   describe '#add_item' do
     it 'adds an item to the genre items collection' do
       @genre.add_item(@item)
