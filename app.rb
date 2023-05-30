@@ -16,7 +16,7 @@ class App
   def load_file(file_path)
     return [] unless File.exist?(file_path) && File.size(file_path).positive?
 
-    JSON.parse(File.read(file_path))
+    JSON.load_file(file_path)
   end
 
   def load_music_albums_data
