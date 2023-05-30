@@ -4,13 +4,14 @@ require 'date'
 
 describe Book do
   before(:all) do
-    @book_data = { id: rand(1000), publish_date: Date.new(2023, 5, 29), archived: false, publisher: 'Hachette',
-                   cover_state: 'good' }
+    @book_data = { id: rand(1000), publish_date: Date.new(2023, 5, 29), archived: false, title: 'Dune',
+                   publisher: 'Hachette', cover_state: 'good' }
   end
 
   before(:each) do
     @book = Book.new(id: @book_data[:id], publish_date: @book_data[:publish_date], archived: @book_data[:archived],
-                     publisher: @book_data[:publisher], cover_state: @book_data[:cover_state])
+                     title: @book_data[:title], publisher: @book_data[:publisher],
+                     cover_state: @book_data[:cover_state])
   end
 
   context 'inheritance' do
@@ -26,6 +27,7 @@ describe Book do
         id: @book_data[:id],
         publish_date: @book_data[:publish_date],
         archived: @book_data[:archived],
+        title: @book_data[:title],
         publisher: @book_data[:publisher],
         cover_state: @book_data[:cover_state]
       )

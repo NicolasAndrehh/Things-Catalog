@@ -77,6 +77,8 @@ class App
   def list_authors; end
 
   def create_book
+    print 'Title: '
+    title = gets.chomp
     print 'Publisher: '
     publisher = gets.chomp
     print 'Publish date (YYYY/MM/DD): '
@@ -85,7 +87,8 @@ class App
     cover_state = gets.chomp
     print 'Is it archived? [Y/N]: '
     archived = gets.chomp.match?(/^[yY]$/)
-    @books << Book.new(publish_date: publish_date, archived: archived, publisher: publisher, cover_state: cover_state)
+    @books << Book.new(publish_date: publish_date, archived: archived, publisher: publisher, cover_state: cover_state,
+                       title: title)
   end
 
   def create_music_album

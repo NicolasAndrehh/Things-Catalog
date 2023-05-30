@@ -3,16 +3,16 @@ require_relative 'item'
 class Book < Item
   attr_accessor :publisher, :cover_state
 
-  def initialize(id: rand(1000), publish_date: nil, archived: nil, publisher: nil, cover_state: nil)
-    super(id: id, publish_date: publish_date, archived: archived)
-    @publisher = publisher
-    @cover_state = cover_state
+  def initialize(args)
+    super(id: args[:id], publish_date: args[:publish_date], archived: args[:archived], title: args[:title])
+    @publisher = args[:publisher]
+    @cover_state = args[:cover_state]
   end
 
   def to_s
-    # TODO: Add title and author
-    "#{@id}. Publisher: #{@publisher}, Publish date: #{@publish_date}, Cover state: #{@cover_state}, " \
-      "Archived: #{@archived}"
+    # TODO: Add author
+    "#{@id}. Title: #{@title}, Publisher: #{@publisher}, Publish date: #{@publish_date}, " \
+      "Cover state: #{@cover_state}, Archived: #{@archived}"
   end
 
   private
