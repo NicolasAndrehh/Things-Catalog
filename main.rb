@@ -2,6 +2,7 @@ require_relative 'app'
 
 def main
   app = App.new
+  app.load_data
   menu = { 'Please select an option' => nil, 'List all books' => :list_books,
            'List all music albums' => :list_music_albums, 'List of games' => :list_games,
            'List all genres' => :list_genres, 'List all labels' => :list_labels, 'List all authors' => :list_authors,
