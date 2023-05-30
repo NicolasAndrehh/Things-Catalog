@@ -24,7 +24,9 @@ class App
 
     music_albums_data.each do |music_album_data|
       new_music_album = MusicAlbum.new(music_album_data['on_spotify'], music_album_data['publish_date'],
-                                       music_album_data['archived'])
+                                       music_album_data['archived'], music_album_data['title'])
+                                             
+      new_music_album.genre = Genre.new(music_album_data['genre']) unless @genres.include?(music_album_data['genre'])
       @music_albums << new_music_album
     end
   end
@@ -33,7 +35,7 @@ class App
     genres_data = load_file('./data/genres.json')
 
     genres_data.each do |genre_data|
-      new_genre = Genre.new(genre_data['name'])
+      new_genre = Genre.new(genre_data['name']) unless @genres.include?(genre_data['name'])
       @genres << new_genre
     end
   end
@@ -44,7 +46,9 @@ class App
     @music_albums.empty? && puts("\n- There are no music albums -")
 
     @music_albums.each_with_index do |music_album, index|
-      puts "#{index + 1}. #{music_album.on_spotify} | #{music_album.publish_date} | #{music_album.archived}"
+      puts "#{index + 1}. Title: #{music_album.title} | Publish date: #{music_album.publish_date} |" +
+        "Archived: #{music_album.archived} | On Spotify: #{music_album.on_spotify} | " +
+        "Genre: #{music_album.genre.name}"
     end
   end
 
@@ -64,6 +68,8 @@ class App
 
   def create_music_album
     # Ask the user for the publish date, on spotify, archived and genre of the music album
+    print "\nPlease enter the title of the album: "
+    title = gets.chomp
     print "\nPlease enter the publish date of the album:"
     publish_date = gets.chomp
     print 'Is the album on Spotify? (y/n): '
@@ -75,7 +81,7 @@ class App
 
     # Create a new music album and add it to the list of music albums
     new_genre = Genre.new(genre)
-    new_music_album = MusicAlbum.new(on_spotify, publish_date, archived)
+    new_music_album = MusicAlbum.new(on_spotify, publish_date, archived, title)
     new_music_album.genre = new_genre
     @music_albums << new_music_album
     @genres << new_genre
@@ -89,7 +95,8 @@ class App
   def exit
     # Save the music albums to a file
     music_albums_data = @music_albums.map do |music_album|
-      { on_spotify: music_album.on_spotify, publish_date: music_album.publish_date, archived: music_album.archived }
+      { on_spotify: music_album.on_spotify, publish_date: music_album.publish_date, archived: music_album.archived,
+        title: music_album.title, genre: music_album.genre.name }
     end
 
     File.write('./data/music_albums.json', JSON.generate(music_albums_data))
