@@ -25,7 +25,7 @@ class App
     music_albums_data.each do |music_album_data|
       new_music_album = MusicAlbum.new(music_album_data['on_spotify'], music_album_data['publish_date'],
                                        music_album_data['archived'], music_album_data['title'])
-                                             
+
       new_music_album.genre = Genre.new(music_album_data['genre']) unless @genres.include?(music_album_data['genre'])
       @music_albums << new_music_album
     end
@@ -46,9 +46,9 @@ class App
     @music_albums.empty? && puts("\n- There are no music albums -")
 
     @music_albums.each_with_index do |music_album, index|
-      puts "#{index + 1}. Title: #{music_album.title} | Publish date: #{music_album.publish_date} |" +
-        "Archived: #{music_album.archived} | On Spotify: #{music_album.on_spotify} | " +
-        "Genre: #{music_album.genre.name}"
+      puts "#{index + 1}. Title: #{music_album.title} | Publish date: #{music_album.publish_date} |" \
+           "Archived: #{music_album.archived} | On Spotify: #{music_album.on_spotify} | " \
+           "Genre: #{music_album.genre.name}"
     end
   end
 
