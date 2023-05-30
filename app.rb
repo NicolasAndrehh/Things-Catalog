@@ -70,7 +70,7 @@ class App
     # Ask the user for the publish date, on spotify, archived and genre of the music album
     print "\nPlease enter the title of the album: "
     title = gets.chomp
-    print "\nPlease enter the publish date of the album:"
+    print "Please enter the publish date of the album:"
     publish_date = gets.chomp
     print 'Is the album on Spotify? (y/n): '
     on_spotify = gets.chomp == 'y'
