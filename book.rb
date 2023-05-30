@@ -9,6 +9,11 @@ class Book < Item
     @cover_state = cover_state
   end
 
+  def to_s
+    # TODO: Add title and author
+    "Publisher: #{@publisher}, Publish date: #{@publish_date}, Cover state: #{@cover_state}, Archived: #{@archived}"
+  end
+
   private
 
   def can_be_archived?

@@ -1,10 +1,9 @@
 require_relative '../label'
 require_relative '../item'
-require 'date'
 
 describe Label do
   before(:all) do
-    @label_data = { title: 'gift', color: 'blue' }
+    @label_data = { title: 'Gift', color: 'blue' }
   end
 
   before(:each) do
@@ -24,7 +23,7 @@ describe Label do
 
   context '#add_item' do
     before(:each) do
-      @prev_label = Label.new('new', 'black')
+      @prev_label = Label.new('New', 'black')
       @item = Item.new(Date.new(2023, 5, 30), true)
       @prev_label.add_item(@item)
     end

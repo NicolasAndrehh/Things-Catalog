@@ -12,4 +12,8 @@ class Label
   def add_item(item)
     item.label = self
   end
+
+  def to_s
+    "Title: #{title}, Color: #{color}"
+  end
 end

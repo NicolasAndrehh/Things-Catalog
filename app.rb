@@ -1,11 +1,16 @@
 require_relative 'genre'
 require_relative 'music_album'
+require_relative 'array'
+require_relative 'book'
+require_relative 'label'
 require 'json'
 
 class App
   def initialize
     @genres = []
     @music_albums = []
+    @books = []
+    @labels = JSON.parse(File.read('data/labels.json')).map { |elem| Label.new(elem['title'], elem['color']) }
 
     load_genres_data
     load_music_albums_data
@@ -38,7 +43,9 @@ class App
     end
   end
 
-  def list_books; end
+  def list_books
+    puts('', @books.to_numbered_s, '')
+  end
 
   def list_music_albums
     @music_albums.empty? && puts("\n- There are no music albums -")
@@ -62,9 +69,23 @@ class App
     end
   end
 
-  def list_labels; end
+  def list_labels
+    puts('', @labels.to_numbered_s, '')
+  end
+
   def list_authors; end
-  def create_book; end
+
+  def create_book
+    print 'Publisher: '
+    publisher = gets.chomp
+    print 'Publish date (YYYY/MM/DD): '
+    publish_date = Date.new(*gets.chomp.split('/').map(&:to_i))
+    print 'Cover state [good/bad]: '
+    cover_state = gets.chomp
+    print 'Is it archived? [Y/N]: '
+    archived = gets.chomp.match?(/^[yY]$/)
+    @books << Book.new(publish_date, archived, publisher, cover_state)
+  end
 
   def create_music_album
     # Ask the user for the publish date, on spotify, archived and genre of the music album
