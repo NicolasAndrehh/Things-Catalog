@@ -1,5 +1,7 @@
+require 'date'
+
 class Item
-  attr_reader :genre, :author, :source, :label
+  attr_reader :genre, :author, :label
   attr_accessor :publish_date, :archived, :title
 
   def initialize(publish_date, archived, title)
@@ -21,12 +23,6 @@ class Item
     @author.items << self
   end
 
-  def source=(source)
-    @source.items.delete(self)
-    @source = source
-    @source.items << self
-  end
-
   def label=(label)
     @label.items.delete(self)
     @label = label
@@ -35,11 +31,12 @@ class Item
 
   def move_to_archive
     @archived = true if can_be_archived?
+    self
   end
 
   private
 
   def can_be_archived?
-    @publish_date > 10
+    Date.today.year - @publish_date.year > 10
   end
 end
