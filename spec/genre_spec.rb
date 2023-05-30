@@ -4,7 +4,7 @@ require_relative '../item'
 describe Genre do
   before(:each) do
     @genre = Genre.new('Rock')
-    @item = Item.new(11, false)
+    @item = Item.new(11, false, 'Title')
   end
 
   describe '#add_item' do
