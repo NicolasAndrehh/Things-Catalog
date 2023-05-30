@@ -24,7 +24,7 @@ class Item
   end
 
   def label=(label)
-    @label.items.delete(self)
+    @label&.items&.delete(self)
     @label = label
     @label.items << self
   end
