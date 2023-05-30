@@ -9,39 +9,35 @@ class App
   end
 
   def load_data
-    # Load the music albums from a file
-    music_albums_data = File.read('./data/music_albums.json') if File.exist?('./data/music_albums.json')
+    load_music_albums_data
+    load_genres_data
+  end
 
-    # If the data is empty, set the music albums to an empty array
-    if music_albums_data.nil? || music_albums_data.empty?
-      music_albums_data = []
-    else
-      music_albums_data = JSON.parse(File.read('./data/music_albums.json'))
-    end
+  def load_file(file_path)
+    return [] unless File.exist?(file_path) && File.size(file_path).positive?
 
-    # Preserve the music albums in the app
+    JSON.parse(File.read(file_path))
+  end
+
+  def load_music_albums_data
+    music_albums_data = load_file('./data/music_albums.json')
+
     music_albums_data.each do |music_album_data|
-      new_music_album = MusicAlbum.new(music_album_data['on_spotify'], music_album_data['publish_date'], music_album_data['archived'])
+      new_music_album = MusicAlbum.new(music_album_data['on_spotify'], music_album_data['publish_date'],
+                                       music_album_data['archived'])
       @music_albums << new_music_album
     end
+  end
 
-    # Load the genres from a file
-    genres_data = File.read('./data/genres.json') if File.exist?('./data/genres.json')
+  def load_genres_data
+    genres_data = load_file('./data/genres.json')
 
-    # If the data is empty, set the genres to an empty array
-    if genres_data.nil? || genres_data.empty? 
-      genres_data = []
-    else
-      genres_data =  JSON.parse(File.read('./data/genres.json'))
-    end
-
-    # Preserve the genres in the app
     genres_data.each do |genre_data|
       new_genre = Genre.new(genre_data['name'])
       @genres << new_genre
     end
   end
-  
+
   def list_books; end
 
   def list_music_albums
@@ -89,20 +85,20 @@ class App
   end
 
   def create_game; end
-  
+
   def exit
     # Save the music albums to a file
     music_albums_data = @music_albums.map do |music_album|
-      { on_spotify: music_album.on_spotify, publish_date: music_album.publish_date, archived: music_album.archived}
+      { on_spotify: music_album.on_spotify, publish_date: music_album.publish_date, archived: music_album.archived }
     end
-    
+
     File.write('./data/music_albums.json', JSON.generate(music_albums_data))
 
     # Save the genres to a file
     genres_data = @genres.map do |genre|
       { name: genre.name }
     end
-  
+
     File.write('./data/genres.json', JSON.generate(genres_data))
   end
 end
