@@ -4,11 +4,13 @@ require 'date'
 
 describe Book do
   before(:all) do
-    @book_data = { publish_date: Date.new(2023, 5, 29), archived: false, publisher: 'Hachette', cover_state: 'good' }
+    @book_data = { id: rand(1000), publish_date: Date.new(2023, 5, 29), archived: false, publisher: 'Hachette',
+                   cover_state: 'good' }
   end
 
   before(:each) do
-    @book = Book.new(@book_data[:publish_date], @book_data[:archived], @book_data[:publisher], @book_data[:cover_state])
+    @book = Book.new(id: @book_data[:id], publish_date: @book_data[:publish_date], archived: @book_data[:archived],
+                     publisher: @book_data[:publisher], cover_state: @book_data[:cover_state])
   end
 
   context 'inheritance' do
@@ -21,6 +23,7 @@ describe Book do
     it 'should initialize with the given publish_date, archived, publisher, and cover_state' do
       expect(@book).to be_an_instance_of(Book)
       expect(@book).to have_attributes(
+        id: @book_data[:id],
         publish_date: @book_data[:publish_date],
         archived: @book_data[:archived],
         publisher: @book_data[:publisher],

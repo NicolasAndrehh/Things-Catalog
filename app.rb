@@ -1,6 +1,5 @@
 require_relative 'genre'
 require_relative 'music_album'
-require_relative 'array'
 require_relative 'book'
 require_relative 'label'
 require 'json'
@@ -10,7 +9,9 @@ class App
     @genres = []
     @music_albums = []
     @books = []
-    @labels = JSON.parse(File.read('data/labels.json')).map { |elem| Label.new(elem['title'], elem['color']) }
+    @labels = JSON.parse(File.read('data/labels.json')).map do |elem|
+      Label.new(id: elem['id'], title: elem['title'], color: elem['color'])
+    end
 
     load_genres_data
     load_music_albums_data
@@ -44,7 +45,7 @@ class App
   end
 
   def list_books
-    puts('', @books.to_numbered_s, '')
+    puts('', @books, '')
   end
 
   def list_music_albums
@@ -70,7 +71,7 @@ class App
   end
 
   def list_labels
-    puts('', @labels.to_numbered_s, '')
+    puts('', @labels, '')
   end
 
   def list_authors; end
@@ -84,7 +85,7 @@ class App
     cover_state = gets.chomp
     print 'Is it archived? [Y/N]: '
     archived = gets.chomp.match?(/^[yY]$/)
-    @books << Book.new(publish_date, archived, publisher, cover_state)
+    @books << Book.new(publish_date: publish_date, archived: archived, publisher: publisher, cover_state: cover_state)
   end
 
   def create_music_album

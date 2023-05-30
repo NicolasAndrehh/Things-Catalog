@@ -3,17 +3,18 @@ require_relative '../item'
 
 describe Label do
   before(:all) do
-    @label_data = { title: 'Gift', color: 'blue' }
+    @label_data = { id: rand(1000), title: 'Gift', color: 'blue' }
   end
 
   before(:each) do
-    @label = Label.new(@label_data[:title], @label_data[:color])
+    @label = Label.new(id: @label_data[:id], title: @label_data[:title], color: @label_data[:color])
   end
 
   context '#initialize' do
     it 'should initialize with the given title, color, and empty items array' do
       expect(@label).to be_an_instance_of(Label)
       expect(@label).to have_attributes(
+        id: @label_data[:id],
         title: @label_data[:title],
         color: @label_data[:color],
         items: []
@@ -23,8 +24,8 @@ describe Label do
 
   context '#add_item' do
     before(:each) do
-      @prev_label = Label.new('New', 'black')
-      @item = Item.new(Date.new(2023, 5, 30), true)
+      @prev_label = Label.new
+      @item = Item.new
       @prev_label.add_item(@item)
     end
 

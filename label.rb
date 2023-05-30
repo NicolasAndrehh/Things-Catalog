@@ -1,9 +1,9 @@
 class Label
   attr_accessor :title, :color
-  attr_reader :items
+  attr_reader :items, :id
 
-  def initialize(title, color)
-    @id = rand(1000)
+  def initialize(id: rand(1000), title: nil, color: nil)
+    @id = id
     @title = title
     @color = color
     @items = []
@@ -14,6 +14,6 @@ class Label
   end
 
   def to_s
-    "Title: #{title}, Color: #{color}"
+    "#{@id}. Title: #{@title}, Color: #{@color}"
   end
 end
