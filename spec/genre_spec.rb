@@ -18,7 +18,6 @@ describe Genre do
   end
 
   describe '#add_item' do
-
     before(:each) do
       @genre.add_item(@item)
     end
