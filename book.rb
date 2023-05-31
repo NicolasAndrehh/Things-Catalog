@@ -10,9 +10,30 @@ class Book < Item
   end
 
   def to_s
-    # TODO: Add author
     "#{@id}. Title: #{@title}, Publisher: #{@publisher}, Publish date: #{@publish_date}, " \
-      "Cover state: #{@cover_state}, Archived: #{@archived}"
+      "Cover state: #{@cover_state}, Archived: #{@archived}, Label title: #{@label.title}, " \
+      "Label color: #{@label.color}"
+  end
+
+  def to_json(*args)
+    {
+      type: self.class,
+      id: @id,
+      title: @title,
+      publish_date: @publish_date,
+      archived: @archived,
+      publisher: @publisher,
+      cover_state: @cover_state,
+      label_id: @label.id
+    }.to_json(*args)
+  end
+
+  def self.from_parsed_json(book, helper_data)
+    relevant_label = helper_data[:labels].find { |label| label.id == book['label_id'] }
+    new_book = new(id: book['id'], title: book['title'], publish_date: book['publish_date'], archived: book['archived'],
+                   publisher: book['publisher'], cover_state: book['cover_state'])
+    new_book.label = relevant_label
+    new_book
   end
 
   private

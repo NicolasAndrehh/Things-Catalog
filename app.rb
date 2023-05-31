@@ -7,11 +7,9 @@ require 'json'
 class App
   def initialize
     @genres = []
+    @labels = load_data('labels.json')
     @music_albums = []
-    @books = []
-    @labels = JSON.parse(File.read('data/labels.json')).map do |elem|
-      Label.new(id: elem['id'], title: elem['title'], color: elem['color'])
-    end
+    @books = load_data('books.json')
 
     load_genres_data
     load_music_albums_data
@@ -21,6 +19,13 @@ class App
     return [] unless File.exist?(file_path) && File.size(file_path).positive?
 
     JSON.load_file(file_path)
+  end
+
+  def load_data(file_name)
+    file_path = File.join('data', file_name)
+    data = load_file(file_path)
+    helper_data = { labels: @labels }
+    data.map { |elem| Object.const_get(elem['type']).from_parsed_json(elem, helper_data) }
   end
 
   def load_music_albums_data
@@ -45,11 +50,18 @@ class App
   end
 
   def list_books
-    puts('', @books, '')
+    if @books.empty?
+      puts '', 'There are no books', ''
+    else
+      puts '', @books, ''
+    end
   end
 
   def list_music_albums
-    @music_albums.empty? && puts("\n- There are no music albums -")
+    if @music_albums.empty?
+      puts("\n- There are no music albums -")
+      return
+    end
 
     puts 'Music albums:'
     @music_albums.each_with_index do |music_album, index|
@@ -71,7 +83,11 @@ class App
   end
 
   def list_labels
-    puts('', @labels, '')
+    if @labels.empty?
+      puts '', 'There are no labels', ''
+    else
+      puts('', @labels, '')
+    end
   end
 
   def list_authors; end
@@ -87,16 +103,23 @@ class App
     cover_state = gets.chomp
     print 'Is it archived? [Y/N]: '
     archived = gets.chomp.match?(/^[yY]$/)
-    @books << Book.new(publish_date: publish_date, archived: archived, publisher: publisher, cover_state: cover_state,
-                       title: title)
+    puts 'Please select a label:'
+    list_labels
+    label_id = gets.chomp.to_i
+    relevant_label = @labels.find { |label| label.id == label_id }
+
+    new_book = Book.new(publish_date: publish_date, archived: archived, publisher: publisher, cover_state: cover_state,
+                        title: title)
+    new_book.label = relevant_label
+    @books << new_book
   end
 
   def create_music_album
     # Ask the user for the publish date, on spotify, archived and genre of the music album
     print "\nPlease enter the title of the album: "
     title = gets.chomp
-    print 'Please enter the publish date of the album: '
-    publish_date = gets.chomp
+    print 'Please enter the publish date of the album (YYYY/MM/DD): '
+    publish_date = Date.new(*gets.chomp.split('/').map(&:to_i))
     print 'Is the album on Spotify? (y/n): '
     on_spotify = gets.chomp == 'y'
     print 'Is the album archived? (y/n): '
@@ -131,5 +154,8 @@ class App
     end
 
     File.write('./data/genres.json', JSON.generate(genres_data))
+
+    # Save all books to a file
+    File.write('data/books.json', @books.to_json)
   end
 end

@@ -1,30 +1,36 @@
 [
   {
+    "type": "Label",
     "id": 1,
     "title": "Gift",
     "color": "red"
   },
   {
+    "type": "Label",
     "id": 2,
     "title": "Gift",
     "color": "blue"
   },
   {
+    "type": "Label",
     "id": 3,
     "title": "Gift",
     "color": "black"
   },
   {
+    "type": "Label",
     "id": 4,
     "title": "New",
     "color": "red"
   },
   {
+    "type": "Label",
     "id": 5,
     "title": "New",
     "color": "blue"
   },
   {
+    "type": "Label",
     "id": 6,
     "title": "New",
     "color": "black"
