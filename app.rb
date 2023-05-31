@@ -24,7 +24,7 @@ class App
       new_music_album = MusicAlbum.new(music_album_data['on_spotify'], music_album_data['publish_date'],
                                        music_album_data['archived'], music_album_data['title'])
 
-      new_music_album.genre = Genre.new(music_album_data['genre']) unless @genres.include?(music_album_data['genre'])
+      new_music_album.genre = @genres.find { |genre| genre.name == music_album_data['genre'] }
       @music_albums << new_music_album
     end
   end
@@ -43,6 +43,7 @@ class App
   def list_music_albums
     @music_albums.empty? && puts("\n- There are no music albums -")
 
+    puts 'Music albums:'
     @music_albums.each_with_index do |music_album, index|
       puts "#{index + 1}. Title: #{music_album.title} | Publish date: #{music_album.publish_date} |" \
            "Archived: #{music_album.archived} | On Spotify: #{music_album.on_spotify} | " \
@@ -55,6 +56,7 @@ class App
   def list_genres
     @genres.empty? && puts("\n- There are no genres -")
 
+    puts 'Genres:'
     @genres.each_with_index do |genre, index|
       puts "#{index + 1}. #{genre.name}"
     end
@@ -68,21 +70,20 @@ class App
     # Ask the user for the publish date, on spotify, archived and genre of the music album
     print "\nPlease enter the title of the album: "
     title = gets.chomp
-    print 'Please enter the publish date of the album:'
+    print 'Please enter the publish date of the album: '
     publish_date = gets.chomp
     print 'Is the album on Spotify? (y/n): '
     on_spotify = gets.chomp == 'y'
     print 'Is the album archived? (y/n): '
     archived = gets.chomp == 'y'
-    print 'Please enter the genre of the album: '
-    genre = gets.chomp
+    puts 'Please select a genre: '
+    list_genres
+    genre_index = gets.chomp.to_i - 1
 
     # Create a new music album and add it to the list of music albums
-    new_genre = Genre.new(genre)
     new_music_album = MusicAlbum.new(on_spotify, publish_date, archived, title)
-    new_music_album.genre = new_genre
+    new_music_album.genre = @genres[genre_index]
     @music_albums << new_music_album
-    @genres << new_genre
 
     # Print a message to the user saying that the music album was created successfully
     puts "\nThe music album was created successfully"
