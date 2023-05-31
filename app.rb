@@ -4,11 +4,11 @@ require 'json'
 
 class App
   def initialize
-    @music_albums = []
     @genres = []
+    @music_albums = []
 
-    load_music_albums_data
     load_genres_data
+    load_music_albums_data
   end
 
   def load_file(file_path)
