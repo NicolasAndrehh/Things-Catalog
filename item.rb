@@ -1,17 +1,18 @@
 class Item
   attr_reader :genre, :author, :source, :label
-  attr_accessor :publish_date, :archived
+  attr_accessor :publish_date, :archived, :title
 
-  def initialize(publish_date, archived)
+  def initialize(publish_date, archived, title)
     @id = rand(1000)
     @publish_date = publish_date
     @archived = archived
+    @title = title
   end
 
   def genre=(genre)
-    @genre.items.delete(self)
+    @genre&.items&.delete(self)
     @genre = genre
-    @genre.items << self
+    genre.items << self
   end
 
   def author=(author)
