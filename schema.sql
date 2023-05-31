@@ -6,7 +6,6 @@ CREATE TABLE
         title VARCHAR(100) NOT NULL,
         genre_id INTEGER NOT NULL,
         author_id INTEGER NOT NULL,
-        source_id INTEGER NOT NULL,
         label_id INTEGER NOT NULL,
         publish_date DATE NOT NULL,
         archived BOOLEAN NOT NULL,
