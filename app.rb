@@ -167,7 +167,8 @@ class App
     # Save the games to a file
     games_data = @games.map do |game|
       { multiplayer: game.multiplayer, last_played_at: game.last_played_at, publish_date: game.publish_date,
-        archived: game.archived, title: game.title, author: "#{game.author.first_name} #{game.author.last_name}", type: 'Game' }
+        archived: game.archived, title: game.title, author: "#{game.author.first_name} #{game.author.last_name}",
+        type: 'Game' }
     end
 
     File.write('./data/games.json', JSON.generate(games_data))
