@@ -16,11 +16,8 @@ class App
     @labels = @data_loader.load_file('labels.json')
     @music_albums = @data_loader.load_file('music_albums.json')
     @books = @data_loader.load_file('books.json')
-    @authors = []
-    @games = []
-
-    @data_loader.load_authors_data
-    @data_loader.load_games_data
+    @authors = @data_loader.load_file('authors.json')
+    @games = @data_loader.load_file('games.json')
   end
 
   def list_books
@@ -170,14 +167,14 @@ class App
     # Save the games to a file
     games_data = @games.map do |game|
       { multiplayer: game.multiplayer, last_played_at: game.last_played_at, publish_date: game.publish_date,
-        archived: game.archived, title: game.title, author: "#{game.author.first_name} #{game.author.last_name}" }
+        archived: game.archived, title: game.title, author: "#{game.author.first_name} #{game.author.last_name}", type: 'Game' }
     end
 
     File.write('./data/games.json', JSON.generate(games_data))
 
     # Save the authors to a file
     authors_data = @authors.map do |author|
-      { first_name: author.first_name, last_name: author.last_name }
+      { first_name: author.first_name, last_name: author.last_name, type: 'Author' }
     end
     File.write('./data/authors.json', JSON.generate(authors_data))
 
