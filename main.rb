@@ -3,7 +3,7 @@ require_relative 'app'
 def main
   app = App.new
   menu = { 'Please select an option' => nil, 'List all books' => :list_books,
-           'List all music albums' => :list_music_albums, 'List of games' => :list_games,
+           'List all music albums' => :list_music_albums, 'List all games' => :list_games,
            'List all genres' => :list_genres, 'List all labels' => :list_labels, 'List all authors' => :list_authors,
            'Add a book' => :create_book, 'Add a music album' => :create_music_album, 'Add a game' => :create_game,
            'Exit' => :exit }

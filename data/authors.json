@@ -1,0 +1,12 @@
+[
+  { "first_name": "J.K.", "last_name": "Rowling" },
+  { "first_name": "J.R.R.", "last_name": "Tolkien" },
+  { "first_name": "George", "last_name": "Orwell" },
+  { "first_name": "Jane", "last_name": "Austen" },
+  { "first_name": "Fyodor", "last_name": "Dostoevsky" },
+  { "first_name": "Harper", "last_name": "Lee" },
+  { "first_name": "Ernest", "last_name": "Hemingway" },
+  { "first_name": "Mark", "last_name": "Twain" },
+  { "first_name": "Charlotte", "last_name": "Brontë" },
+  { "first_name": "William", "last_name": "Shakespeare" }
+]
