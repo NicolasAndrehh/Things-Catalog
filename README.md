@@ -2,7 +2,7 @@
 
 <div align="center">
 
-  <h1><b>OOP School Library</b></h1>
+  <h1><b>Catalog of my things</b></h1>
 
 </div>
 
@@ -27,14 +27,15 @@
 
 <!-- PROJECT DESCRIPTION -->
 
-# 📖 OOP school library <a name="about-project"></a>
+# 📖 Catalog of my things <a name="about-project"></a>
 
-**OOP school library** project is a programming exercise where the learner builds a tool to manage books and borrowers using OOP principles, including classes for people, students, and teachers, and a basic UI.
+**Catalog of my things** is a project where we create a console app that will help you to keep a record of different types of things you own: books, music albums, and games. Everything will be based on the UML class diagram presented below. The data is stored in JSON files but we also prepare a database with tables structure analogical to the program's class structure.
+
+![catalog_of_my_things](catalog_of_my_things.png)
 
 ## 🛠 Built With <a name="built-with"></a>
 
 ### Tech Stack <a name="tech-stack"></a>
-
 
 <details>
   <summary>Client</summary>
@@ -47,8 +48,9 @@
 
 ### Key Features <a name="key-features"></a>
 
-- **[This project use linters]**
-- **[This project use Gitflow workflow]**
+- **This project use linters**
+- **This project implements unit tests**
+- **This project use Gitflow workflow**
 
 <p align="right"><a href="#readme-top">Back to top</a></p>
 
@@ -60,15 +62,15 @@ To get a local copy up and running, follow these steps.
 
 ### Prerequisites
 
-- You'll need any code editor 
+- You'll need any code editor
 
 ### Setup
 
 Clone this repository to your desired folder:
 
 ```sh
-  git clone git@github.com:NicolasAndrehh/OOP-School-Library.git
-  cd OOP-School-Library
+  git clone git@github.com:NicolasAndrehh/Things-Catalog.git
+  cd Things-Catalog
 ```
 
 ### Usage
@@ -87,17 +89,22 @@ To run the project, execute the following command:
 - Twitter: [@nicolasolaya22](https://twitter.com/nicolasolaya22)
 - LinkedIn: [LinkedIn](https://www.linkedin.com/in/nicolas-olaya/)
 
-👤 **Timothy Njoroge**
+👤 **Dico Diaz Dussan**
 
-- GitHub: [@Simplegoose](https://github.com/simplegoose)
-- LinkedIn: [LinkedIn](https://www.linkedin.com/in/timothy-njoroge-mwangi)
+- GitHub: [@dicodiaz](https://github.com/dicodiaz)
+- LinkedIn: [Dico Diaz Dussan](https://www.linkedin.com/in/dico-diaz-dussan/)
+- Portfolio: [portfolio.dicodiaz.com.co](https://portfolio.dicodiaz.com.co)
 
-<p align="right"><a href="#readme-top">Back to top</a></p>
+👤 **Rashed Arman**
+
+- GitHub: [@rashedarman](https://github.com/rashedarman)
+- Twitter: [@rashedarman21](https://twitter.com/rashedarman21)
+- LinkedIn: [Rashed Arman](https://linkedin.com/in/rashedarman)
 
 ## 🔭 Future Features <a name="future-features"></a>
 
-- [ ] **[Add more classes]**
-- [ ] **[Add more methods]**
+- [ ] **Remove a selected book**
+- [ ] **Add genre to selected book**
 
 <p align="right"><a href="#readme-top">Back to top</a></p>
 
