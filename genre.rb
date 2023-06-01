@@ -10,4 +10,8 @@ class Genre
   def add_item(item)
     item.genre = self
   end
+
+  def self.from_parsed_json(genre, _helper_data)
+    new(genre['name'])
+  end
 end

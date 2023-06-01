@@ -11,4 +11,8 @@ class Author
   def add_item(item)
     item.author = self
   end
+
+  def self.from_parsed_json(book, _helper_data)
+    new(book['first_name'], book['last_name'])
+  end
 end

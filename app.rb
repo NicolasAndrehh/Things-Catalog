@@ -12,17 +12,12 @@ class App
 
   def initialize
     @data_loader = DataLoader.new(self)
-    @genres = []
-    @labels = @data_loader.load_data('labels.json')
-    @music_albums = []
-    @books = @data_loader.load_data('books.json')
-    @authors = []
-    @games = []
-
-    @data_loader.load_genres_data
-    @data_loader.load_music_albums_data
-    @data_loader.load_authors_data
-    @data_loader.load_games_data
+    @genres = @data_loader.load_file('genres.json')
+    @labels = @data_loader.load_file('labels.json')
+    @music_albums = @data_loader.load_file('music_albums.json')
+    @books = @data_loader.load_file('books.json')
+    @authors = @data_loader.load_file('authors.json')
+    @games = @data_loader.load_file('games.json')
   end
 
   def list_books
@@ -157,14 +152,14 @@ class App
     # Save the music albums to a file
     music_albums_data = @music_albums.map do |music_album|
       { on_spotify: music_album.on_spotify, publish_date: music_album.publish_date, archived: music_album.archived,
-        title: music_album.title, genre: music_album.genre.name }
+        title: music_album.title, genre: music_album.genre.name, type: 'MusicAlbum' }
     end
 
     File.write('./data/music_albums.json', JSON.generate(music_albums_data))
 
     # Save the genres to a file
     genres_data = @genres.map do |genre|
-      { name: genre.name }
+      { name: genre.name, type: 'Genre' }
     end
 
     File.write('./data/genres.json', JSON.generate(genres_data))
@@ -172,14 +167,15 @@ class App
     # Save the games to a file
     games_data = @games.map do |game|
       { multiplayer: game.multiplayer, last_played_at: game.last_played_at, publish_date: game.publish_date,
-        archived: game.archived, title: game.title, author: "#{game.author.first_name} #{game.author.last_name}" }
+        archived: game.archived, title: game.title, author: "#{game.author.first_name} #{game.author.last_name}",
+        type: 'Game' }
     end
 
     File.write('./data/games.json', JSON.generate(games_data))
 
     # Save the authors to a file
     authors_data = @authors.map do |author|
-      { first_name: author.first_name, last_name: author.last_name }
+      { first_name: author.first_name, last_name: author.last_name, type: 'Author' }
     end
     File.write('./data/authors.json', JSON.generate(authors_data))
 

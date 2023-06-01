@@ -12,4 +12,13 @@ class Game < Item
   def can_be_archived?
     super && (Date.today.year - @last_played_at.year > 2)
   end
+
+  def self.from_parsed_json(game, helper_data)
+    new_game = new(game['multiplayer'], game['last_played_at'], game['publish_date'], game['archived'], game['title'])
+    new_game.author = helper_data[:authors].find do |author|
+      author_first_name, author_last_name = game['author'].split
+      author.first_name == author_first_name && author.last_name == author_last_name
+    end
+    new_game
+  end
 end
