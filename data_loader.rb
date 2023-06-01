@@ -3,38 +3,13 @@ class DataLoader
     @app = app
   end
 
-  def load_file(file_path)
+  def load_file(file_name)
+    file_path = File.join('data', file_name)
     return [] unless File.exist?(file_path) && File.size(file_path).positive?
 
-    JSON.load_file(file_path)
-  end
-
-  def load_data(file_name)
-    file_path = File.join('data', file_name)
-    data = load_file(file_path)
-    helper_data = { labels: @app.labels }
+    data = JSON.load_file(file_path)
+    helper_data = { labels: @app.labels, genres: @app.genres }
     data.map { |elem| Object.const_get(elem['type']).from_parsed_json(elem, helper_data) }
-  end
-
-  def load_music_albums_data
-    music_albums_data = load_file('./data/music_albums.json')
-
-    music_albums_data.each do |music_album_data|
-      new_music_album = MusicAlbum.new(music_album_data['on_spotify'], music_album_data['publish_date'],
-                                       music_album_data['archived'], music_album_data['title'])
-
-      new_music_album.genre = @app.genres.find { |genre| genre.name == music_album_data['genre'] }
-      @app.music_albums << new_music_album
-    end
-  end
-
-  def load_genres_data
-    genres_data = load_file('./data/genres.json')
-
-    genres_data.each do |genre_data|
-      new_genre = Genre.new(genre_data['name']) unless @app.genres.include?(genre_data['name'])
-      @app.genres << new_genre
-    end
   end
 
   def load_games_data

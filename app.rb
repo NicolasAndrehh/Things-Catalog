@@ -12,15 +12,13 @@ class App
 
   def initialize
     @data_loader = DataLoader.new(self)
-    @genres = []
-    @labels = @data_loader.load_data('labels.json')
-    @music_albums = []
-    @books = @data_loader.load_data('books.json')
+    @genres = @data_loader.load_file('genres.json')
+    @labels = @data_loader.load_file('labels.json')
+    @music_albums = @data_loader.load_file('music_albums.json')
+    @books = @data_loader.load_file('books.json')
     @authors = []
     @games = []
 
-    @data_loader.load_genres_data
-    @data_loader.load_music_albums_data
     @data_loader.load_authors_data
     @data_loader.load_games_data
   end
@@ -157,14 +155,14 @@ class App
     # Save the music albums to a file
     music_albums_data = @music_albums.map do |music_album|
       { on_spotify: music_album.on_spotify, publish_date: music_album.publish_date, archived: music_album.archived,
-        title: music_album.title, genre: music_album.genre.name }
+        title: music_album.title, genre: music_album.genre.name, type: 'MusicAlbum' }
     end
 
     File.write('./data/music_albums.json', JSON.generate(music_albums_data))
 
     # Save the genres to a file
     genres_data = @genres.map do |genre|
-      { name: genre.name }
+      { name: genre.name, type: 'Genre' }
     end
 
     File.write('./data/genres.json', JSON.generate(genres_data))
