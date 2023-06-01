@@ -16,7 +16,7 @@ CREATE TABLE
         publish_date DATE NOT NULL,
         archived BOOLEAN NOT NULL,
         on_spotify BOOLEAN NOT NULL,
-        FOREIGN KEY (genre_id) REFERENCES genre (id) ON DELETE CASCADE
+        FOREIGN KEY (genre_id) REFERENCES genres (id) ON DELETE CASCADE
     );
 
 CREATE TABLE
