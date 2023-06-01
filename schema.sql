@@ -35,3 +35,18 @@ CREATE TABLE books (
     label_id INTEGER NOT NULL,
     FOREIGN KEY (label_id) REFERENCES labels(id) ON DELETE CASCADE
 );
+
+CREATE TABLE authors(
+  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  first_name VARCHAR(100),
+  last_name VARCHAR(100),
+);
+
+CREATE TABLE games(
+  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  publish_date DATE,
+  archived BOOLEAN,
+  multiplayer BOOLEAN,
+  last_played_at DATE,
+  game_id INT REFERENCES authors(id)
+);
