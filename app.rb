@@ -2,51 +2,27 @@ require_relative 'genre'
 require_relative 'music_album'
 require_relative 'book'
 require_relative 'label'
+require_relative 'game'
+require_relative 'author'
+require_relative 'data_loader'
 require 'json'
 
 class App
+  attr_reader :genres, :labels, :music_albums, :books, :authors, :games
+
   def initialize
+    @data_loader = DataLoader.new(self)
     @genres = []
-    @labels = load_data('labels.json')
+    @labels = @data_loader.load_data('labels.json')
     @music_albums = []
-    @books = load_data('books.json')
+    @books = @data_loader.load_data('books.json')
+    @authors = []
+    @games = []
 
-    load_genres_data
-    load_music_albums_data
-  end
-
-  def load_file(file_path)
-    return [] unless File.exist?(file_path) && File.size(file_path).positive?
-
-    JSON.load_file(file_path)
-  end
-
-  def load_data(file_name)
-    file_path = File.join('data', file_name)
-    data = load_file(file_path)
-    helper_data = { labels: @labels }
-    data.map { |elem| Object.const_get(elem['type']).from_parsed_json(elem, helper_data) }
-  end
-
-  def load_music_albums_data
-    music_albums_data = load_file('./data/music_albums.json')
-
-    music_albums_data.each do |music_album_data|
-      new_music_album = MusicAlbum.new(music_album_data['on_spotify'], music_album_data['publish_date'],
-                                       music_album_data['archived'], music_album_data['title'])
-
-      new_music_album.genre = @genres.find { |genre| genre.name == music_album_data['genre'] }
-      @music_albums << new_music_album
-    end
-  end
-
-  def load_genres_data
-    genres_data = load_file('./data/genres.json')
-
-    genres_data.each do |genre_data|
-      new_genre = Genre.new(genre_data['name']) unless @genres.include?(genre_data['name'])
-      @genres << new_genre
-    end
+    @data_loader.load_genres_data
+    @data_loader.load_music_albums_data
+    @data_loader.load_authors_data
+    @data_loader.load_games_data
   end
 
   def list_books
@@ -71,7 +47,19 @@ class App
     end
   end
 
-  def list_games; end
+  def list_games
+    if @games.empty?
+      puts("\n- There are no games -")
+      return
+    end
+
+    puts 'Games:'
+    @games.each_with_index do |game, index|
+      puts "#{index + 1}. Title: #{game.title} | Publish date: #{game.publish_date} | " \
+           "Archived: #{game.archived} | Multiplayer: #{game.multiplayer} | " \
+           "Last played: #{game.last_played_at} | Author: #{game.author.first_name} #{game.author.last_name}"
+    end
+  end
 
   def list_genres
     @genres.empty? && puts("\n- There are no genres -")
@@ -90,7 +78,13 @@ class App
     end
   end
 
-  def list_authors; end
+  def list_authors
+    @authors.empty? && puts("\n- There are no authors -")
+    puts 'Authors:'
+    @authors.each_with_index do |author, index|
+      puts "#{index + 1}. #{author.first_name} #{author.last_name}"
+    end
+  end
 
   def create_book
     print 'Title: '
@@ -137,7 +131,27 @@ class App
     puts "\nThe music album was created successfully"
   end
 
-  def create_game; end
+  def create_game
+    print "\nTitle: "
+    title = gets.chomp
+    print 'Publish date (YYYY/MM/DD): '
+    publish_date = Date.new(*gets.chomp.split('/').map(&:to_i))
+    print 'Is it archived? (y/n): '
+    archived = gets.chomp == 'y'
+    print 'Is it multiplayer? (y/n): '
+    multiplayer = gets.chomp == 'y'
+    print 'Last played at (YYYY/MM/DD): '
+    last_played_at = Date.new(*gets.chomp.split('/').map(&:to_i))
+    puts 'Please select an author: '
+    list_authors
+    author_index = gets.chomp.to_i - 1
+
+    new_game = Game.new(multiplayer, last_played_at, publish_date, archived, title)
+    new_game.author = @authors[author_index]
+    @games << new_game
+
+    puts "\nThe game was created successfully"
+  end
 
   def exit
     # Save the music albums to a file
@@ -154,6 +168,20 @@ class App
     end
 
     File.write('./data/genres.json', JSON.generate(genres_data))
+
+    # Save the games to a file
+    games_data = @games.map do |game|
+      { multiplayer: game.multiplayer, last_played_at: game.last_played_at, publish_date: game.publish_date,
+        archived: game.archived, title: game.title, author: "#{game.author.first_name} #{game.author.last_name}" }
+    end
+
+    File.write('./data/games.json', JSON.generate(games_data))
+
+    # Save the authors to a file
+    authors_data = @authors.map do |author|
+      { first_name: author.first_name, last_name: author.last_name }
+    end
+    File.write('./data/authors.json', JSON.generate(authors_data))
 
     # Save all books to a file
     File.write('data/books.json', @books.to_json)

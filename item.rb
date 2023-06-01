@@ -18,7 +18,7 @@ class Item
   end
 
   def author=(author)
-    @author.items.delete(self)
+    @author&.items&.delete(self)
     @author = author
     @author.items << self
   end
